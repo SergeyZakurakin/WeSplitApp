@@ -7,9 +7,19 @@
 
 import SwiftUI
 
+struct totalCheck: ViewModifier {
+    var tipPercentage: Int
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundStyle(tipPercentage == 0 ? .red : .black)
+        
+    }
+}
+
+
 
 struct ContentView: View {
-    
   
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
@@ -38,10 +48,6 @@ struct ContentView: View {
         
         return grandTotal
     }
-    
-    
-    
-    
     
     var body: some View {
         NavigationStack {
@@ -72,12 +78,10 @@ struct ContentView: View {
                 
                 Section("Total Amount") {
                     Text(total, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        .modifier(totalCheck(tipPercentage: tipPercentage))
                 }
-                
-                
-                
-                
             }
+            
             .navigationTitle("WeSplit")
             .toolbar {
                 if amountIsFocused {
